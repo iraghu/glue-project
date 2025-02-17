@@ -17,8 +17,11 @@ pipeline {
 
         stage('Upload Script to S3') {
             steps {
+                echo "Hello1"
                 withAWS(credentials: 'aws-quad-credentials', region: "${AWS_REGION}") {
+                    echo "Hello2"
                     sh "aws s3 cp ${GLUE_SCRIPT_PATH} s3://${S3_BUCKET}/glue-scripts-cicd/"
+                    echo "Hello3"
                 }
             }
         }
