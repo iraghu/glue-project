@@ -4,8 +4,8 @@ pipeline {
     environment {
         AWS_REGION = 'ap-south-1'
         S3_BUCKET = 'gluerawbucket'
-        GLUE_JOB_NAME = 'your-glue-job'
-        GLUE_SCRIPT_PATH = 'glue-scripts/your-script.py'
+        GLUE_JOB_NAME = 'RawToRefinedScript-cicdJob'
+        GLUE_SCRIPT_PATH = 'glue_scripts/RawToRefinedScript'
     }
 
     stages {
@@ -18,7 +18,7 @@ pipeline {
         stage('Upload Script to S3') {
             steps {
                 withAWS(credentials: 'aws-glue-credentials', region: "${AWS_REGION}") {
-                    sh "aws s3 cp ${GLUE_SCRIPT_PATH} s3://${S3_BUCKET}/glue-scripts/"
+                    sh "aws s3 cp ${GLUE_SCRIPT_PATH} s3://${S3_BUCKET}/glue-scripts-cicd/"
                 }
             }
         }
