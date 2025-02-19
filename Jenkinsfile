@@ -29,7 +29,7 @@ pipeline {
             }
         }
  
-        stages {
+        
         stage('Update Glue Job') {
             steps {
                 script {
@@ -45,6 +45,6 @@ pipeline {
                 }
             }
         }
-    }
+    
     }
 }
