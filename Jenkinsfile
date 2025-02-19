@@ -5,7 +5,7 @@ pipeline {
         AWS_REGION = 'ap-south-1'
         S3_BUCKET = 'gluerawbucket'
         GLUE_JOB_NAME = 'RawToRefinedScript-cicdJob'
-        GLUE_SCRIPT_PATH = 'https://raw.githubusercontent.com/iraghu/glue-project/main/glue_scripts/LandingToRawScript.py'
+        GLUE_SCRIPT_PATH = 'C:\ProgramData\Jenkins\.jenkins\workspace\AWS Glue Deployment\glue_scripts\LandingToRawScript.py'
     }
  
     stages {
