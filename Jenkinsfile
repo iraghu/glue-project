@@ -31,7 +31,7 @@ pipeline {
  
         stage('Update Glue Job') {
             steps {
-                withAWS(credentials: 'aws-glue-credentials', region: "${AWS_REGION}") {
+                withAWS(credentials: 'awsQuadCredentials', region: "${AWS_REGION}") {
                     sh '''
                     aws glue update-job --job-name ${GLUE_JOB_NAME} --job-update '
                     {
