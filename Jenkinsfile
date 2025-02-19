@@ -1,55 +1,44 @@
 pipeline {
     agent any
- 
+
     environment {
-        AWS_REGION = 'ap-south-1'
-        S3_BUCKET = 'gluerawbucket'
-        GLUE_JOB_NAME = 'RawToRefinedScript-cicdJob'
-        GLUE_SCRIPT_PATH = 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\AWS Glue Deployment\\glue_scripts\\LandingToRawScript.py'
+        // Set up AWS credentials
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')  // Store this in Jenkins credentials store
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')  // Store this in Jenkins credentials store
+        AWS_DEFAULT_REGION = 'ap-south-1'  // Set the appropriate AWS region
+        GITHUB_REPO_URL = 'https://github.com/iraghu/glue-project.git'  // GitHub repo URL
+        FILE_PATH = 'glue_scripts/LandingToRawScript.py'  // Path to the file in your repo
+        S3_BUCKET = 'gluerawbucket'  // The name of your S3 bucket
     }
- 
+
     stages {
-        stage('Checkout Code') {
+        stage('Clone GitHub Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/iraghu/glue-project.git'
-            }
-        }
- 
-        stage('Upload Script to S3') {
-            steps {
-                echo "Hello1"
-                echo GLUE_SCRIPT_PATH
-                withAWS(credentials: 'awsQuadCredentials', region: "${AWS_REGION}") {
-                    echo "Hello2"
-                    """aws s3 cp s3://gluerawbucket/banksdata.json s3://${S3_BUCKET}/glue-scripts-cicd/" --region ${AWS_REGION}"""
-                    echo "Hello3"
+                script {
+                    // Clone the GitHub repository
+                    sh 'git clone ${GITHUB_REPO_URL}'
                 }
             }
         }
- 
-        stage('Update Glue Job') {
+
+        stage('Copy File to S3') {
             steps {
-                withAWS(credentials: 'awsQuadCredentials', region: "${AWS_REGION}") {
-                    sh '''
-                    aws glue update-job --job-name ${GLUE_JOB_NAME} --job-update '
-                    {
-                        "Command": {
-                            "Name": "glueetl",
-                            "ScriptLocation": "s3://${S3_BUCKET}/glue-scripts/your-script.py",
-                            "PythonVersion": "3"
-                        }
-                    }'
-                    '''
+                script {
+                    // Copy the file to S3
+                    sh """
+                        aws s3 cp ${FILE_PATH} s3://${S3_BUCKET}/ --region ${AWS_DEFAULT_REGION}
+                    """
                 }
             }
         }
- 
-        stage('Trigger Glue Job') {
-            steps {
-                withAWS(credentials: 'aws-glue-credentials', region: "${AWS_REGION}") {
-                    sh "aws glue start-job-run --job-name ${GLUE_JOB_NAME}"
-                }
-            }
+    }
+
+    post {
+        success {
+            echo 'File successfully copied to S3!'
+        }
+        failure {
+            echo 'There was an error during the process.'
         }
     }
 }
