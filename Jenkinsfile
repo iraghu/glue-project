@@ -21,9 +21,7 @@ pipeline {
                 echo GLUE_SCRIPT_PATH
                 withAWS(credentials: 'awsQuadCredentials', region: "${AWS_REGION}") {
                     echo "Hello2"
-                    sh """
                     aws s3 cp s3://gluerawbucket/banksdata.json s3://${S3_BUCKET}/glue-scripts-cicd/" --region ${AWS_REGION}
-                    """
                     echo "Hello3"
                 }
             }
