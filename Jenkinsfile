@@ -29,21 +29,22 @@ pipeline {
             }
         }
  
+        stages {
         stage('Update Glue Job') {
             steps {
-                withAWS(credentials: 'credentials', region: "${AWS_REGION}") {
-                    bat """
-                    aws glue update-job --job-name = ${GLUE_JOB_NAME} --job-update '
-                    {
-                        "Command": {
-                            "Name": "glueetl",
-                            "ScriptLocation": "s3://${S3_BUCKET}/glue-scripts-cicd/${GLUE_SCRIPT_PATH}",
-                            "PythonVersion": "3"
-                        }
-                    }'
+                script {
+                    // Updating AWS Glue job using AWS CLI
+                    def updateJobCommand = """
+                        aws glue update-job \
+                            --job-name ${GLUE_JOB_NAME} \
+                            --job-update "{\"Command\": {\"Name\": \"glueetl\", \"ScriptLocation\": \"s3://${S3_BUCKET}/glue-scripts-cicd/${GLUE_SCRIPT_PATH}\"}}"
                     """
+                    
+                    // Run the AWS CLI command to update the Glue job
+                    bat updateJobCommand
                 }
             }
         }
+    }
     }
 }
