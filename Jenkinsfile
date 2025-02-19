@@ -37,7 +37,7 @@ pipeline {
                     def updateJobCommand = """
                         aws glue update-job \
                             --job-name ${GLUE_JOB_NAME} \
-                            --job-update "{\"Command\": {\"Name\": \"glueetl\", \"ScriptLocation\": \"\"}}"
+                            --job-update "{\"Command\": {\"Name\": \"glueetl\", \"ScriptLocation\": \"s3://${S3_BUCKET}/glue-scripts-cicd/${GLUE_SCRIPT_PATH}\"}}"
                     """
                     
                     // Run the AWS CLI command to update the Glue job
