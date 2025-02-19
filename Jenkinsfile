@@ -40,7 +40,6 @@ pipeline {
                                         --role arn:aws:iam::442116323705:role/glues3 \
                                         --command '{"Name":"glueetl","ScriptLocation":"s3://${S3_BUCKET}/glue-scripts-cicd/${GLUE_SCRIPT_PATH}"}' \
                                         --default-arguments '{"--TempDir":"s3://gluerawbucket/temp-dir"}' \
-                                        --execution-property '{"MaxConcurrentRuns":1}'
                     """
                     
                     // Run the AWS CLI command to update the Glue job
