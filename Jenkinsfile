@@ -37,19 +37,11 @@ pipeline {
                     {
                         "Command": {
                             "Name": "glueetl",
-                            "ScriptLocation": "s3://${S3_BUCKET}/glue-scripts/your-script.py",
+                            "ScriptLocation": "s3://${S3_BUCKET}/glue-scripts-cicd/${GLUE_SCRIPT_PATH}",
                             "PythonVersion": "3"
                         }
                     }'
                     '''
-                }
-            }
-        }
- 
-        stage('Trigger Glue Job') {
-            steps {
-                withAWS(credentials: 'aws-glue-credentials', region: "${AWS_REGION}") {
-                    sh "aws glue start-job-run --job-name ${GLUE_JOB_NAME}"
                 }
             }
         }
