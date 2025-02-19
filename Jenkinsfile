@@ -33,7 +33,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'credentials', region: "${AWS_REGION}") {
                     bat """
-                    aws glue update-job --job-name ${GLUE_JOB_NAME} --job-update '
+                    aws glue update-job --job-name = ${GLUE_JOB_NAME} --job-update '
                     {
                         "Command": {
                             "Name": "glueetl",
