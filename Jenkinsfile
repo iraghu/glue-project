@@ -22,7 +22,7 @@ pipeline {
                 withAWS(credentials: 'credentials', region: "${AWS_REGION}") {
                     echo "Hello2"
                     bat """
-                    aws s3 cp ${GLUE_SCRIPT_PATH} s3://${S3_BUCKET}/glue-scripts-cicd/" --region ${AWS_REGION}
+                    aws s3 cp ${GLUE_SCRIPT_PATH} s3://${S3_BUCKET}/glue-scripts-cicd/${GLUE_SCRIPT_PATH}"
                     """
                     echo "Hello3"
                 }
