@@ -36,7 +36,7 @@ pipeline {
                     // Updating AWS Glue job using AWS CLI
                     withAWS(credentials: 'credentials', region: "${AWS_REGION}") {
                     def updateJobCommand = """
-                        aws glue create-job --job-name ${GLUE_JOB_NAME} --job-update Role=glues3,Command="{Name=glueetl,ScriptLocation=s3://gluerawbucket/glue-scripts-cicd/glue_scripts/LandingToRawScript.py}"
+                        aws glue create-job --job-name ${GLUE_JOB_NAME} --job-create Role=glues3,Command="{Name=glueetl,ScriptLocation=s3://gluerawbucket/glue-scripts-cicd/glue_scripts/LandingToRawScript.py}"
                     """
                     
                     // Run the AWS CLI command to update the Glue job
