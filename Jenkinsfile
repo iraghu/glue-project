@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo "Hello1"
                 echo GLUE_SCRIPT_PATH
-                withAWS(credentials: 'aws-quad-credentials', region: "${AWS_REGION}") {
+                withAWS(credentials: 'credentials', region: "${AWS_REGION}") {
                     echo "Hello2"
                     sh """
                     aws s3 cp ${GLUE_SCRIPT_PATH} s3://${S3_BUCKET}/glue-scripts-cicd/" --region ${AWS_REGION}
@@ -31,7 +31,7 @@ pipeline {
  
         stage('Update Glue Job') {
             steps {
-                withAWS(credentials: 'aws-glue-credentials', region: "${AWS_REGION}") {
+                withAWS(credentials: 'credentials', region: "${AWS_REGION}") {
                     sh '''
                     aws glue update-job --job-name ${GLUE_JOB_NAME} --job-update '
                     {
