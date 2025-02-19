@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         // Set up AWS credentials
-        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')  // Store this in Jenkins credentials store
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')  // Store this in Jenkins credentials store
+        AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')  // Store this in Jenkins credentials store
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')  // Store this in Jenkins credentials store
         AWS_DEFAULT_REGION = 'ap-south-1'  // Set the appropriate AWS region
         GITHUB_REPO_URL = 'https://github.com/iraghu/glue-project.git'  // GitHub repo URL
         FILE_PATH = 'glue_scripts/LandingToRawScript.py'  // Path to the file in your repo
