@@ -32,7 +32,7 @@ pipeline {
         stage('Update Glue Job') {
             steps {
                 withAWS(credentials: 'credentials', region: "${AWS_REGION}") {
-                    bat '''
+                    bat """
                     aws glue update-job --job-name ${GLUE_JOB_NAME} --job-update '
                     {
                         "Command": {
@@ -41,7 +41,7 @@ pipeline {
                             "PythonVersion": "3"
                         }
                     }'
-                    '''
+                    """
                 }
             }
         }
